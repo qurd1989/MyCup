@@ -10,6 +10,7 @@ package org.myCompany.mycup.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.myCompany.mycup.models.Category;
+import org.myCompany.mycup.models.Product;
 
 @Getter
 @Setter
@@ -20,5 +21,10 @@ public class ProductResponseDto {
     private Double price;
     private String imageUrl;
     private String categoryName;
+
+    public static ProductResponseDto from(Product product) {
+
+        return null;
+    }
 
 }

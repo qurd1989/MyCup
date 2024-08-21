@@ -9,6 +9,9 @@ package org.myCompany.mycup.controllers;
  * - Converts the data into ProductResponseDto before sending it in the response, ensuring that clients receive consistent and secure information.
  */
 import org.myCompany.mycup.dto.ProductResponseDto;
+import org.myCompany.mycup.models.Product;
+import org.myCompany.mycup.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +19,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProductController {
+  private ProductService productService;
+  @Autowired
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
   @GetMapping("/product/{id}")
-  public ResponseEntity<ProductResponseDto> getProductById(@PathVariable("id") Long id) {
+  public  ProductResponseDto getProductById(@PathVariable("id") Long id) {
     ProductResponseDto productResponseDto = new ProductResponseDto();
-
-    productResponseDto.setId(id);
-    productResponseDto.setTitle("title");
-    productResponseDto.setDescription("description");
-    productResponseDto.setPrice(10.0);
-    productResponseDto.setImageUrl("wrewer");
-      return new ResponseEntity<>(productResponseDto, HttpStatusCode.valueOf(203));
-
+    Product product = productService.getProductById(id);
+    return ProductResponseDto.from(product);
   }
   @GetMapping("/product")
   public String getAllProducts() {

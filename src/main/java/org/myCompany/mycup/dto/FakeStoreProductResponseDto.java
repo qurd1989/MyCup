@@ -9,6 +9,8 @@ package org.myCompany.mycup.dto;
  */
 import lombok.Getter;
 import lombok.Setter;
+import org.myCompany.mycup.models.Category;
+import org.myCompany.mycup.models.Product;
 
 @Getter
 @Setter
@@ -19,4 +21,18 @@ public class FakeStoreProductResponseDto {
     private Double price;
     private String image;
     private String category;
+
+    public Product toProduct() {
+        Product product  = new Product();
+        product.setId(this.id);
+        product.setTitle(this.title);
+        product.setDescription(this.description);
+        product.setPrice(Double.valueOf(this.price));
+        product.setImageUrl(this.image);
+
+        Category category1 = new Category();
+        category1.setName(this.category);
+        product.setCategory(category1);
+        return product;
+    }
 }
