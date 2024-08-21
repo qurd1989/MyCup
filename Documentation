@@ -1,0 +1,18 @@
+1.Models (Product, Category): Represent the core data structure of your
+application. These are used across different layers for data manipulation
+and storage.
+2.DTOs (ProductResponseDto, FakeStoreProductResponseDto): Act as intermediaries
+for data transfer between the layers, especially between the service and
+controller layers. They help in shaping the data that is passed to and from
+the client.
+3.Services (FakeStoreProductService, ProductService): Contain the business
+logic of your application. They interact with external APIs, process data,
+and provide the necessary data to the controllers. The services often convert
+models into DTOs for returning data to the client.
+4.Controllers (ProductController): Handle incoming HTTP requests, interact
+with services, and send out responses. They serve as the interface between
+the client (e.g., a web application) and the backend.
+5.Configuration (RestTemplateConfiguration): Provides necessary configurations
+(like the RestTemplate bean) that other layers depend on for performing
+
+operations, such as making HTTP requests.
