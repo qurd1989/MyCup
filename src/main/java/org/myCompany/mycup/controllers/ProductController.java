@@ -12,11 +12,10 @@ import org.myCompany.mycup.dto.ProductResponseDto;
 import org.myCompany.mycup.models.Product;
 import org.myCompany.mycup.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 public class ProductController {
   private ProductService productService;

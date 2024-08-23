@@ -23,8 +23,14 @@ public class ProductResponseDto {
     private String categoryName;
 
     public static ProductResponseDto from(Product product) {
-
-        return null;
+        ProductResponseDto productResponseDto = new ProductResponseDto();
+        productResponseDto.setId(product.getId());
+        productResponseDto.setTitle(product.getTitle());
+        productResponseDto.setDescription(product.getDescription());
+        productResponseDto.setPrice(product.getPrice());
+        productResponseDto.setCategoryName(product.getCategory().getName());
+        productResponseDto.setImageUrl(product.getImageUrl());
+        return productResponseDto;
     }
 
 }
