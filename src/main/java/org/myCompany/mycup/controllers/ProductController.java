@@ -35,7 +35,7 @@ public class ProductController {
     return "Hello World";
   }
   public void createProduct(){
-
+    System.out.println("fadfsd");
   }
   public void deleteProduct() {
 
