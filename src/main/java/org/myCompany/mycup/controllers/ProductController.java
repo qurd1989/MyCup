@@ -8,20 +8,30 @@ package org.myCompany.mycup.controllers;
  * - Uses ProductService to perform operations and fetch data.
  * - Converts the data into ProductResponseDto before sending it in the response, ensuring that clients receive consistent and secure information.
  */
+import org.myCompany.mycup.dto.FakeStoreProductRequestDto;
+import org.myCompany.mycup.dto.FakeStoreProductResponseDto;
+import org.myCompany.mycup.dto.ProductRequestDto;
 import org.myCompany.mycup.dto.ProductResponseDto;
 import org.myCompany.mycup.models.Product;
 import org.myCompany.mycup.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ProductController {
+  private final RestTemplate restTemplate;
   private ProductService productService;
   @Autowired
-  public ProductController(ProductService productService) {
+  public ProductController(ProductService productService, RestTemplate restTemplate) {
     this.productService = productService;
+    this.restTemplate = restTemplate;
   }
 
   @GetMapping("/product/{id}")
@@ -31,13 +41,34 @@ public class ProductController {
     return ProductResponseDto.from(product);
   }
   @GetMapping("/product")
-  public String getAllProducts() {
-    return "Hello World";
+  public List<ProductResponseDto> getAllProducts() {
+    List<Product> products = productService.getAllProducts();
+    List<ProductResponseDto> productResponseDtos = new ArrayList<>();
+    for(Product product : products) {
+      productResponseDtos.add(ProductResponseDto.from(product));
+    }
+
+    return productResponseDtos;
   }
-  public void createProduct(){
-    System.out.println("fadfsd");
+  @PostMapping("/product")
+  public ProductResponseDto createProduct(@RequestBody ProductRequestDto productRequestDto){
+    Product product = productService.createProduct(
+            productRequestDto.getTitle(),
+            productRequestDto.getDescription(),
+            productRequestDto.getPrice(),
+            productRequestDto.getImageUrl(),
+            productRequestDto.getCategoryName());
+    return ProductResponseDto.from(product);
   }
-  public void deleteProduct() {
+  public void deleteProduct(Long id, Product product) {
+    HttpEntity<Product> httpEntity = new HttpEntity<>(product);
+    ResponseEntity<FakeStoreProductResponseDto> responseDtoResponseEntity
+            = restTemplate.exchange(
+                    "https://fakestoreapi.com/products"  + id,
+            HttpMethod.PATCH,
+            httpEntity,
+            FakeStoreProductResponseDto.class);
+    FakeStoreProductResponseDto responseDto = responseDtoResponseEntity.getBody();
 
   }
   public void updateProduct() {

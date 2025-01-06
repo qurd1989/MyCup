@@ -9,6 +9,13 @@ package org.myCompany.mycup.services;
  */
 import org.myCompany.mycup.models.Product;
 
+import java.util.List;
+
 public interface ProductService {
     public Product getProductById(Long id);
+    public List<Product> getAllProducts();
+    public Product createProduct(String title, String description, Double price, String imageURL
+    , String categoryName);
+
+    Product partialUpdate();
 }
